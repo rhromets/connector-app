@@ -1,0 +1,11 @@
+.header-navbar {
+  background-color: $pr-main;
+}
+.header-menu_item {
+  color: $pr-txt !important;
+  font-size: $s-font;
+  &.active {
+    border-color: $pr-light !important;
+    border-width: 2px !important;
+  }
+}

@@ -1,0 +1,29 @@
+.landing {
+  background: url(../../img/landing-wallp.jpg) no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 95vh;
+}
+.dark-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+}
+.landing-content {
+  text-align: center;
+  h1 {
+    color: $pr-light;
+    text-transform: uppercase;
+  }
+  h3 {
+    color: $pr-light;
+    text-transform: capitalize;
+    font-size: $m-size;
+  }
+  button {
+    margin: $s-size 0.5rem !important;
+  }
+}
