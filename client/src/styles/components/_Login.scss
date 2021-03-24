@@ -1,0 +1,25 @@
+.login-form {
+  max-width: 500px;
+  margin: auto;
+  h1 {
+    color: $sec-txt;
+    font-size: $xxl-font;
+    margin-top: $l-size;
+  }
+  h3 {
+    color: $sec-txt;
+    font-size: $l-font !important;
+    text-transform: capitalize;
+  }
+}
+.login_label {
+  color: $sec-dark !important;
+  font-size: $s-font;
+}
+.login_input {
+  color: $sec-txt !important;
+  border-color: $sec-dark !important;
+}
+.login_submBtn {
+  margin-bottom: $xl-size !important;
+}
