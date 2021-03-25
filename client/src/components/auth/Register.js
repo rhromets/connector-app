@@ -1,6 +1,10 @@
 import React, {Component} from "react";
+import Proptypes from "prop-types";
+import {withRouter} from "react-router-dom";
 import {Button, Form} from "semantic-ui-react";
-import axios from "axios";
+import classnames from "classnames";
+import {connect} from "react-redux";
+import {registerUser} from "../../actions/authActions";
 
 class Register extends Component {
   constructor(props) {
@@ -13,6 +17,13 @@ class Register extends Component {
       errors: {},
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      this.setState({errors: nextProps.errors});
+    }
+  }
+
   onNameChange = (e) => {
     const name = e.target.value;
     this.setState(() => ({name}));
@@ -37,13 +48,12 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2,
     };
-    axios
-      .post("/api/users/register", newUser)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err.response.data));
+    this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
+    const {errors} = this.state;
+
     return (
       <div className='register-form'>
         <h1>Register</h1>
@@ -53,38 +63,62 @@ class Register extends Component {
             <label className='register_label'> Name</label>
             <input
               placeholder='Name'
-              className='register_input'
+              className={classnames("register_input", {
+                register__invalid: errors.name,
+              })}
               value={this.state.name}
               onChange={this.onNameChange}
             />
+            {errors.name && (
+              <div className='register_invalid-feedback'>{errors.name}*</div>
+            )}
           </Form.Field>
           <Form.Field>
             <label className='register_label'>Email</label>
             <input
               placeholder='example@example.com'
-              className='register_input'
+              className={classnames("register_input", {
+                register__invalid: errors.email,
+              })}
               value={this.state.email}
               onChange={this.onEmailChange}
             />
+            {errors.email && (
+              <div className='register_invalid-feedback'>{errors.email}*</div>
+            )}
           </Form.Field>
           <Form.Field>
             <label className='register_label'>Password</label>
             <input
               placeholder='Password'
               type='password'
-              className='register_input'
+              className={classnames("register_input", {
+                register__invalid: errors.password,
+              })}
               value={this.state.password}
               onChange={this.onPasswordChange}
             />
+            {errors.password && (
+              <div className='register_invalid-feedback'>
+                {errors.password}*
+              </div>
+            )}
           </Form.Field>
           <Form.Field>
             <input
               placeholder='Confirm password'
               type='password'
-              className='register_input'
+              className={classnames("register_input", {
+                register__invalid: errors.password2,
+              })}
               value={this.state.password2}
               onChange={this.onPassword2Change}
             />
+            {errors.password2 && (
+              <div className='register_invalid-feedback'>
+                {errors.password2}*
+              </div>
+            )}
           </Form.Field>
           <Button type='submit' className='register_submBtn'>
             Submit
@@ -95,4 +129,15 @@ class Register extends Component {
   }
 }
 
-export default Register;
+Register.propTypes = {
+  registerUser: Proptypes.func.isRequired,
+  auth: Proptypes.object.isRequired,
+  errors: Proptypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, {registerUser})(withRouter(Register));

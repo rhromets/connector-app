@@ -23,3 +23,12 @@
 .register_submBtn {
   margin-bottom: $xl-size !important;
 }
+.register__invalid {
+  border: 1px solid $alarm-col !important;
+}
+.register_invalid-feedback {
+  color: $alarm-col;
+  font-size: x-small;
+  font-weight: bold;
+  margin: 5px 5px 0;
+}
