@@ -1,4 +1,8 @@
 import {BrowserRouter as Router, Route} from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import setAuthToken from "../utils/setAuthToken";
+import {setCurrentUser} from "../actions/authActions";
+
 import "semantic-ui-css/semantic.min.css";
 import "../styles/styles.scss";
 import {Container} from "semantic-ui-react";
@@ -10,6 +14,16 @@ import Footer from "./layout/Footer";
 import Landing from "./layout/Landing";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+
+// Check for token
+if (localStorage.jwtToken) {
+  // Set auth token header auth
+  setAuthToken(localStorage.jwtToken);
+  // Decode token and get user info
+  const decoded = jwt_decode(localStorage.jwtToken);
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
+}
 
 const App = () => {
   return (

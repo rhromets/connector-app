@@ -1,5 +1,9 @@
 import React, {Component} from "react";
-import {Button, Form} from "semantic-ui-react";
+import {Form} from "semantic-ui-react";
+import Proptypes from "prop-types";
+import {connect} from "react-redux";
+import {loginUser} from "../../actions/authActions";
+import classnames from "classnames";
 
 class Login extends Component {
   constructor(props) {
@@ -9,6 +13,14 @@ class Login extends Component {
       password: "",
       errors: {},
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+    if (nextProps.errors) {
+      this.setState({errors: nextProps.errors});
+    }
   }
   onEmailChange = (e) => {
     const email = e.target.value;
@@ -20,44 +32,65 @@ class Login extends Component {
   };
   onSubmit = (e) => {
     e.preventDefault();
-    const user = {
+    const userData = {
       email: this.state.email,
       password: this.state.password,
     };
-    console.log(user);
+    this.props.loginUser(userData, this.props.history);
   };
   render() {
+    const {errors} = this.state;
+
     return (
-      <div className='login-form'>
+      <div className='auth-form'>
         <h1>Login</h1>
         <h3>Login to your account</h3>
         <Form onSubmit={this.onSubmit}>
           <Form.Field>
-            <label className='login_label'>Email</label>
+            <label className='auth_label'>Email</label>
             <input
               placeholder='example@example.com'
-              className='login_input'
+              className={classnames("auth_input", {
+                auth__invalid: errors.email,
+              })}
               value={this.state.email}
               onChange={this.onEmailChange}
             />
+            {errors.email && (
+              <div className='auth_invalid-feedback'>{errors.email}*</div>
+            )}
           </Form.Field>
           <Form.Field>
-            <label className='login_label'>Password</label>
+            <label className='auth_label'>Password</label>
             <input
               placeholder='Password'
               type='password'
-              className='login_input'
+              className={classnames("auth_input", {
+                auth__invalid: errors.password,
+              })}
               value={this.state.password}
               onChange={this.onPasswordChange}
             />
+            {errors.password && (
+              <div className='auth_invalid-feedback'>{errors.password}*</div>
+            )}
           </Form.Field>
-          <Button type='submit' className='login_submBtn'>
-            Submit
-          </Button>
+          <input type='submit' value='Submit' className='form_submBtn' />
         </Form>
       </div>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  loginUser: Proptypes.func.isRequired,
+  auth: Proptypes.object.isRequired,
+  errors: Proptypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, {loginUser})(Login);

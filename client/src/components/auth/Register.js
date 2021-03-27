@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Proptypes from "prop-types";
 import {withRouter} from "react-router-dom";
-import {Button, Form} from "semantic-ui-react";
+import {Form} from "semantic-ui-react";
 import classnames from "classnames";
 import {connect} from "react-redux";
 import {registerUser} from "../../actions/authActions";
@@ -55,74 +55,68 @@ class Register extends Component {
     const {errors} = this.state;
 
     return (
-      <div className='register-form'>
+      <div className='auth-form'>
         <h1>Register</h1>
         <h3>Create your account</h3>
         <Form onSubmit={this.onSubmit}>
           <Form.Field>
-            <label className='register_label'> Name</label>
+            <label className='auth_label'> Name</label>
             <input
               placeholder='Name'
-              className={classnames("register_input", {
-                register__invalid: errors.name,
+              className={classnames("auth_input", {
+                auth__invalid: errors.name,
               })}
               value={this.state.name}
               onChange={this.onNameChange}
             />
             {errors.name && (
-              <div className='register_invalid-feedback'>{errors.name}*</div>
+              <div className='auth_invalid-feedback'>{errors.name}*</div>
             )}
           </Form.Field>
           <Form.Field>
-            <label className='register_label'>Email</label>
+            <label className='auth_label'>Email</label>
             <input
               placeholder='example@example.com'
-              className={classnames("register_input", {
-                register__invalid: errors.email,
+              className={classnames("auth_input", {
+                auth__invalid: errors.email,
               })}
               value={this.state.email}
               onChange={this.onEmailChange}
             />
             {errors.email && (
-              <div className='register_invalid-feedback'>{errors.email}*</div>
+              <div className='auth_invalid-feedback'>{errors.email}*</div>
             )}
           </Form.Field>
           <Form.Field>
-            <label className='register_label'>Password</label>
+            <label className='auth_label'>Password</label>
             <input
               placeholder='Password'
               type='password'
-              className={classnames("register_input", {
-                register__invalid: errors.password,
+              className={classnames("auth_input", {
+                auth__invalid: errors.password,
               })}
               value={this.state.password}
               onChange={this.onPasswordChange}
             />
             {errors.password && (
-              <div className='register_invalid-feedback'>
-                {errors.password}*
-              </div>
+              <div className='auth_invalid-feedback'>{errors.password}*</div>
             )}
           </Form.Field>
           <Form.Field>
             <input
               placeholder='Confirm password'
               type='password'
-              className={classnames("register_input", {
-                register__invalid: errors.password2,
+              className={classnames("auth_input", {
+                auth__invalid: errors.password2,
               })}
               value={this.state.password2}
               onChange={this.onPassword2Change}
             />
             {errors.password2 && (
-              <div className='register_invalid-feedback'>
-                {errors.password2}*
-              </div>
+              <div className='auth_invalid-feedback'>{errors.password2}*</div>
             )}
           </Form.Field>
-          <Button type='submit' className='register_submBtn'>
-            Submit
-          </Button>
+          <input type='submit' value='Submit' className='form_submBtn' />
         </Form>
       </div>
     );
