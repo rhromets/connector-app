@@ -9,3 +9,11 @@
     border-width: 2px !important;
   }
 }
+.header-avatar {
+  max-width: 25px !important;
+  max-height: 25px !important;
+  margin: 0 -8px 0 0 !important;
+  border-radius: 30% !important;
+  align-self: center !important;
+  cursor: pointer;
+}

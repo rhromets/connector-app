@@ -1,7 +1,9 @@
 import React, {Component} from "react";
-import {Menu} from "semantic-ui-react";
-import {Container} from "semantic-ui-react";
+import {Menu, Container, Image} from "semantic-ui-react";
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {logoutUser} from "../../actions/authActions";
 
 class Navbar extends Component {
   constructor(props) {
@@ -9,10 +11,58 @@ class Navbar extends Component {
     this.state = {activeItem: "home"};
   }
 
-  handleItemClick = (e, {name}) => this.setState({activeItem: name});
+  handleItemClick = (e, {name}) => {
+    this.setState({activeItem: name});
+  };
+
+  onLogoutClick = (e) => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
 
   render() {
     const {activeItem} = this.state;
+
+    const {isAuthenticated, user} = this.props.auth;
+
+    const authLinks = (
+      <Menu.Menu position='right'>
+        <Image
+          src={user.avatar}
+          alt={user.name}
+          avatar
+          onClick={this.onLogoutClick.bind(this)}
+          className='header-avatar'
+          title='You must have a Gravatar connected to your email to display tour image'
+        />
+        <Menu.Item
+          name='logout'
+          active={activeItem === "logout"}
+          onClick={this.onLogoutClick.bind(this)}
+          className='header-menu_item'
+        />
+      </Menu.Menu>
+    );
+    const guestLinks = (
+      <Menu.Menu position='right'>
+        <Menu.Item
+          as={Link}
+          to='/register'
+          name='signUp'
+          active={activeItem === "signUp"}
+          onClick={this.handleItemClick}
+          className='header-menu_item'
+        />
+        <Menu.Item
+          as={Link}
+          to='/login'
+          name='login'
+          active={activeItem === "login"}
+          onClick={this.handleItemClick}
+          className='header-menu_item'
+        />
+      </Menu.Menu>
+    );
 
     return (
       <header className='header-navbar'>
@@ -34,26 +84,7 @@ class Navbar extends Component {
               onClick={this.handleItemClick}
               className='header-menu_item'
             />
-
-            <Menu.Menu position='right'>
-              <Menu.Item
-                as={Link}
-                to='/register'
-                name='signUp'
-                active={activeItem === "signUp"}
-                onClick={this.handleItemClick}
-                className='header-menu_item'
-              />
-
-              <Menu.Item
-                as={Link}
-                to='/login'
-                name='login'
-                active={activeItem === "login"}
-                onClick={this.handleItemClick}
-                className='header-menu_item'
-              />
-            </Menu.Menu>
+            {isAuthenticated ? authLinks : guestLinks}
           </Menu>
         </Container>
       </header>
@@ -61,4 +92,13 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {logoutUser})(Navbar);
