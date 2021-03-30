@@ -33,7 +33,7 @@ class Navbar extends Component {
           avatar
           onClick={this.onLogoutClick.bind(this)}
           className='header-avatar'
-          title='You must have a Gravatar connected to your email to display tour image'
+          title='You must have a Gravatar connected to your email to display your image'
         />
         <Menu.Item
           name='logout'

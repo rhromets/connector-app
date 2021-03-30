@@ -3,7 +3,7 @@ import {Form} from "semantic-ui-react";
 import Proptypes from "prop-types";
 import {connect} from "react-redux";
 import {loginUser} from "../../actions/authActions";
-import classnames from "classnames";
+import TextFieldGroup from "../../common/TextFieldGroup";
 
 class Login extends Component {
   constructor(props) {
@@ -50,36 +50,25 @@ class Login extends Component {
       <div className='auth-form'>
         <h1>Login</h1>
         <h3>Login to your account</h3>
-        <Form onSubmit={this.onSubmit}>
-          <Form.Field>
-            <label className='auth_label'>Email</label>
-            <input
-              placeholder='example@example.com'
-              className={classnames("auth_input", {
-                auth__invalid: errors.email,
-              })}
-              value={this.state.email}
-              onChange={this.onEmailChange}
-            />
-            {errors.email && (
-              <div className='auth_invalid-feedback'>{errors.email}*</div>
-            )}
-          </Form.Field>
-          <Form.Field>
-            <label className='auth_label'>Password</label>
-            <input
-              placeholder='Password'
-              type='password'
-              className={classnames("auth_input", {
-                auth__invalid: errors.password,
-              })}
-              value={this.state.password}
-              onChange={this.onPasswordChange}
-            />
-            {errors.password && (
-              <div className='auth_invalid-feedback'>{errors.password}*</div>
-            )}
-          </Form.Field>
+        <Form onSubmit={this.onSubmit} noValidate>
+          <TextFieldGroup
+            label='Email'
+            type='email'
+            placeholder='example@example.com'
+            error={errors.email}
+            value={this.state.email}
+            onChange={this.onEmailChange}
+          />
+
+          <TextFieldGroup
+            label='Password'
+            type='password'
+            placeholder='Password'
+            error={errors.password}
+            value={this.state.password}
+            onChange={this.onPasswordChange}
+          />
+
           <input type='submit' value='Submit' className='form_submBtn' />
         </Form>
       </div>

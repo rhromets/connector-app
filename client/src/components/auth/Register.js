@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import Proptypes from "prop-types";
 import {withRouter} from "react-router-dom";
 import {Form} from "semantic-ui-react";
-import classnames from "classnames";
 import {connect} from "react-redux";
 import {registerUser} from "../../actions/authActions";
+import TextFieldGroup from "../../common/TextFieldGroup";
 
 class Register extends Component {
   constructor(props) {
@@ -64,64 +64,42 @@ class Register extends Component {
       <div className='auth-form'>
         <h1>Register</h1>
         <h3>Create your account</h3>
-        <Form onSubmit={this.onSubmit}>
-          <Form.Field>
-            <label className='auth_label'> Name</label>
-            <input
-              placeholder='Name'
-              className={classnames("auth_input", {
-                auth__invalid: errors.name,
-              })}
-              value={this.state.name}
-              onChange={this.onNameChange}
-            />
-            {errors.name && (
-              <div className='auth_invalid-feedback'>{errors.name}*</div>
-            )}
-          </Form.Field>
-          <Form.Field>
-            <label className='auth_label'>Email</label>
-            <input
-              placeholder='example@example.com'
-              className={classnames("auth_input", {
-                auth__invalid: errors.email,
-              })}
-              value={this.state.email}
-              onChange={this.onEmailChange}
-            />
-            {errors.email && (
-              <div className='auth_invalid-feedback'>{errors.email}*</div>
-            )}
-          </Form.Field>
-          <Form.Field>
-            <label className='auth_label'>Password</label>
-            <input
-              placeholder='Password'
-              type='password'
-              className={classnames("auth_input", {
-                auth__invalid: errors.password,
-              })}
-              value={this.state.password}
-              onChange={this.onPasswordChange}
-            />
-            {errors.password && (
-              <div className='auth_invalid-feedback'>{errors.password}*</div>
-            )}
-          </Form.Field>
-          <Form.Field>
-            <input
-              placeholder='Confirm password'
-              type='password'
-              className={classnames("auth_input", {
-                auth__invalid: errors.password2,
-              })}
-              value={this.state.password2}
-              onChange={this.onPassword2Change}
-            />
-            {errors.password2 && (
-              <div className='auth_invalid-feedback'>{errors.password2}*</div>
-            )}
-          </Form.Field>
+        <Form onSubmit={this.onSubmit} noValidate>
+          <TextFieldGroup
+            label='Name'
+            type='text'
+            placeholder='Name'
+            error={errors.name}
+            value={this.state.name}
+            onChange={this.onNameChange}
+          />
+
+          <TextFieldGroup
+            label='Email'
+            type='email'
+            placeholder='example@example.com'
+            error={errors.email}
+            value={this.state.email}
+            onChange={this.onEmailChange}
+          />
+
+          <TextFieldGroup
+            label='Password'
+            type='password'
+            placeholder='Password'
+            error={errors.password}
+            value={this.state.password}
+            onChange={this.onPasswordChange}
+          />
+
+          <TextFieldGroup
+            type='password'
+            placeholder='Confirm password'
+            error={errors.password2}
+            value={this.state.password2}
+            onChange={this.onPassword2Change}
+          />
+
           <input type='submit' value='Submit' className='form_submBtn' />
         </Form>
       </div>
