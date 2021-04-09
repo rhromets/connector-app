@@ -2,6 +2,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
 import {logoutUser, setCurrentUser} from "../actions/authActions";
+import {clearCurrentProfile} from "../actions/profileActions";
 
 import "semantic-ui-css/semantic.min.css";
 import "../styles/styles.scss";
@@ -14,6 +15,7 @@ import Footer from "./layout/Footer";
 import Landing from "./layout/Landing";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import Dashboard from "./dashboard/Dashboard";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -29,6 +31,7 @@ if (localStorage.jwtToken) {
     // Logout user
     store.dispatch(logoutUser());
     // Clear current profile
+    store.dispatch(clearCurrentProfile());
     // Redirect to login
     window.location.href = "/login";
   }
@@ -44,6 +47,7 @@ const App = () => {
           <Container>
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
+            <Route exact path='/dashboard' component={Dashboard} />
           </Container>
           <Footer />
         </div>
