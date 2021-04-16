@@ -3,7 +3,7 @@ import {Form} from "semantic-ui-react";
 import Proptypes from "prop-types";
 import {connect} from "react-redux";
 import {loginUser} from "../../actions/authActions";
-import TextFieldGroup from "../../common/TextFieldGroup";
+import TextFieldGroup from "../../components/common/TextFieldGroup";
 
 class Login extends Component {
   constructor(props) {

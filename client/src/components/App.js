@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
 import {logoutUser, setCurrentUser} from "../actions/authActions";
@@ -9,6 +9,8 @@ import "../styles/styles.scss";
 import {Container} from "semantic-ui-react";
 import {Provider} from "react-redux";
 import store from "../store";
+
+import PrivateRoute from "./common/PrivateRoute";
 
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
@@ -47,7 +49,9 @@ const App = () => {
           <Container>
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
-            <Route exact path='/dashboard' component={Dashboard} />
+            <Switch>
+              <PrivateRoute exact path='/dashboard' component={Dashboard} />
+            </Switch>
           </Container>
           <Footer />
         </div>
